@@ -17,6 +17,10 @@ resource "aws_lambda_function" "tf_learn_lambda" {
   # ラムダ関数のハンドラとランタイム
   handler = "main.lambda_handler"
   runtime = "python3.12"
+
+  tags = {
+    Enviroment = var.stage
+  }
 }
 
 resource "aws_iam_role" "tf_learn_lambda_role" {
@@ -37,6 +41,10 @@ resource "aws_iam_role" "tf_learn_lambda_role" {
     ]
 }
 EOF
+
+  tags = {
+    Enviroment = var.stage
+  }
 }
 
 resource "aws_iam_policy" "tf_learn_lambda_policy" {
@@ -60,6 +68,10 @@ resource "aws_iam_policy" "tf_learn_lambda_policy" {
       }
     ]
   })
+
+  tags = {
+    Enviroment = var.stage
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "tf_learn_lambda_policy_attachment" {
@@ -68,6 +80,10 @@ resource "aws_iam_role_policy_attachment" "tf_learn_lambda_policy_attachment" {
 }
 
 resource "aws_cloudwatch_log_group" "tf_learn_lambda_log_group" {
-  name              = "/aws/lambda/${var.stage}/${var.service_name}/${aws_lambda_function.tf_learn_lambda.function_name}"
+  name              = "/aws/lambda/${aws_lambda_function.tf_learn_lambda.function_name}"
   retention_in_days = 1
+
+  tags = {
+    Enviroment = var.stage
+  }
 }
