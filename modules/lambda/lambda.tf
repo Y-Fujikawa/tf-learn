@@ -5,24 +5,24 @@ data "archive_file" "tf_learn_lambda_zip" {
 }
 
 resource "aws_lambda_function" "tf_learn_lambda" {
-    function_name = "tf-learn-${var.service_name}-${var.stage}-lambda"
+  function_name = "tf-learn-${var.service_name}-${var.stage}-lambda"
 
-    filename         = data.archive_file.tf_learn_lambda_zip.output_path
-    // アップデートのトリガーに使用されるハッシュ
-    source_code_hash = filebase64sha256(data.archive_file.tf_learn_lambda_zip.output_path)
+  filename = data.archive_file.tf_learn_lambda_zip.output_path
+  // アップデートのトリガーに使用されるハッシュ
+  source_code_hash = filebase64sha256(data.archive_file.tf_learn_lambda_zip.output_path)
 
-    # ラムダ関数に割り当てるIAMロール
-    role = aws_iam_role.tf_learn_lambda_role.arn
+  # ラムダ関数に割り当てるIAMロール
+  role = aws_iam_role.tf_learn_lambda_role.arn
 
-    # ラムダ関数のハンドラとランタイム
-    handler = "main.lambda_handler"
-    runtime = "python3.12"
+  # ラムダ関数のハンドラとランタイム
+  handler = "main.lambda_handler"
+  runtime = "python3.12"
 }
 
 resource "aws_iam_role" "tf_learn_lambda_role" {
-    name = "tf-learn-lambda-${var.service_name}-${var.stage}-role"
+  name = "tf-learn-lambda-${var.service_name}-${var.stage}-role"
 
-    assume_role_policy = <<EOF
+  assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -44,11 +44,11 @@ resource "aws_iam_policy" "tf_learn_lambda_policy" {
   description = "IAM policy for the example Lambda function"
 
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
-        Action   = [
+        Effect = "Allow"
+        Action = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
           "logs:PutLogEvents"
@@ -68,6 +68,6 @@ resource "aws_iam_role_policy_attachment" "tf_learn_lambda_policy_attachment" {
 }
 
 resource "aws_cloudwatch_log_group" "tf_learn_lambda_log_group" {
-  name = "/aws/lambda/${var.stage}/${var.service_name}/${aws_lambda_function.tf_learn_lambda.function_name}"
+  name              = "/aws/lambda/${var.stage}/${var.service_name}/${aws_lambda_function.tf_learn_lambda.function_name}"
   retention_in_days = 1
 }
