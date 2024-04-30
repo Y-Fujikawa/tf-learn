@@ -41,4 +41,5 @@ module "step-functions" {
 
   service_name = var.service_name
   stage        = var.stage
+  lambda_arn   = module.lambda.aws_lambda_function_arn
 }

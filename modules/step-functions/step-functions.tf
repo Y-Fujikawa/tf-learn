@@ -42,6 +42,15 @@ resource "aws_iam_policy" "tf_learn_sfn_state_machine_policy" {
         Resource = [
           "*"
         ]
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "lambda:InvokeFunction"
+        ]
+        Resource = [
+          "${var.lambda_arn}:*"
+        ]
       }
     ]
   })
