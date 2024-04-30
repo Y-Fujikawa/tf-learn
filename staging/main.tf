@@ -23,13 +23,22 @@ provider "aws" {
 }
 
 module "s3" {
-  source       = "../modules/s3"
+  source = "../modules/s3"
+
   service_name = var.service_name
   stage        = var.stage
 }
 
 module "lambda" {
-  source       = "../modules/lambda"
+  source = "../modules/lambda"
+
+  service_name = var.service_name
+  stage        = var.stage
+}
+
+module "step-functions" {
+  source = "../modules/step-functions"
+
   service_name = var.service_name
   stage        = var.stage
 }
