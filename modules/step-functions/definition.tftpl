@@ -4,6 +4,9 @@
   "States": {
     "Pass": {
       "Type": "Pass",
+      "Parameters": {
+        "execution_name.$": "$$.Execution.Name"
+      },
       "Next": "Lambda Invoke"
     },
     "Lambda Invoke": {
