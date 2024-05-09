@@ -1,4 +1,10 @@
 variable "stage" {
-  default = "stg"
+  type        = string
+  description = "value of stage"
+  default     = "stg"
 }
-variable "service_name" {}
+variable "service_name" {
+  type        = string
+  description = "value of service name"
+  default     = ""
+}
