@@ -1,25 +1,14 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.46"
-    }
-  }
-  backend "s3" {
-    region = "ap-northeast-1"
-    key    = "terraform.tfstate"
-  }
-
-  required_version = ">= 1.8.2"
+resource "random_string" "random" {
+  length  = 4
+  lower   = true
+  upper   = false
+  numeric = true
+  special = false
 }
 
-provider "aws" {
-  region = "ap-northeast-1"
-  default_tags {
-    tags = {
-      terraform = "true"
-    }
-  }
+locals {
+  # var.nameがnullだったらインスタンス名を`neko-${random_string}`にする
+  name = var.service_name == null ? "tf-learn-${random_string.random.result}" : var.service_name
 }
 
 module "s3" {
