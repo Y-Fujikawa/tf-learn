@@ -7,7 +7,7 @@ resource "random_string" "random" {
 }
 
 locals {
-  # var.nameがnullだったらインスタンス名を`neko-${random_string}`にする
+  # var.service_nameがnullだったらインスタンス名を`tf-learn-${random_string}`にする
   name = var.service_name == null ? "tf-learn-${random_string.random.result}" : var.service_name
 }
 
