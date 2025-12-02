@@ -32,3 +32,10 @@ module "step-functions" {
   stage        = var.stage
   lambda_arn   = module.lambda.aws_lambda_function_arn
 }
+
+module "network" {
+  source = "../modules/network"
+
+  service_name = var.service_name
+  stage        = var.stage
+}
